@@ -1,0 +1,367 @@
+@if(isLoading) {
+<div class="fixed inset-0 bg-white z-20 flex items-center justify-center top-[600px]">
+  <div class="w-[80%] mx-auto">
+    <!-- Header -->
+    <div class="h-8 w-3/4 bg-gray-300 animate-pulse rounded mb-6"></div>
+
+    <!-- Image Section -->
+    <div class="grid grid-cols-4 gap-4">
+      <div class="space-y-2">
+        <div class="h-20 bg-gray-300 animate-pulse rounded"></div>
+        <div class="h-20 bg-gray-300 animate-pulse rounded"></div>
+        <div class="h-20 bg-gray-300 animate-pulse rounded"></div>
+      </div>
+      <div class="col-span-3 h-64 bg-gray-300 animate-pulse rounded"></div>
+    </div>
+
+    <!-- Price Box -->
+    <div class="mt-4 p-4 w-64 h-16 bg-gray-300 animate-pulse rounded"></div>
+
+    <!-- Departure Calendar -->
+    <div class="mt-6">
+      <div class="h-8 w-40 bg-gray-300 animate-pulse rounded mb-3"></div>
+      <div class="grid grid-cols-7 gap-2">
+        <!-- Calendar Skeleton -->
+        <div class="h-10 w-10 bg-gray-300 animate-pulse rounded"></div>
+        <div class="h-10 w-10 bg-gray-300 animate-pulse rounded"></div>
+        <div class="h-10 w-10 bg-gray-300 animate-pulse rounded"></div>
+        <div class="h-10 w-10 bg-gray-300 animate-pulse rounded"></div>
+        <div class="h-10 w-10 bg-gray-300 animate-pulse rounded"></div>
+        <div class="h-10 w-10 bg-gray-300 animate-pulse rounded"></div>
+        <div class="h-10 w-10 bg-gray-300 animate-pulse rounded"></div>
+      </div>
+    </div>
+
+    <!-- Schedule -->
+    <div class="mt-6 space-y-4">
+      <div class="h-16 bg-gray-300 animate-pulse rounded"></div>
+      <div class="h-16 bg-gray-300 animate-pulse rounded"></div>
+      <div class="h-16 bg-gray-300 animate-pulse rounded"></div>
+    </div>
+
+    <!-- Important Information -->
+    <div class="mt-6 space-y-2">
+      <div class="h-12 bg-gray-300 animate-pulse rounded"></div>
+      <div class="h-12 bg-gray-300 animate-pulse rounded"></div>
+      <div class="h-12 bg-gray-300 animate-pulse rounded"></div>
+      <div class="h-12 bg-gray-300 animate-pulse rounded"></div>
+      <div class="h-12 bg-gray-300 animate-pulse rounded"></div>
+    </div>
+
+    <!-- Other Tours -->
+    <div class="mt-6 grid grid-cols-3 gap-4">
+      <div class="h-40 bg-gray-300 animate-pulse rounded"></div>
+      <div class="h-40 bg-gray-300 animate-pulse rounded"></div>
+      <div class="h-40 bg-gray-300 animate-pulse rounded"></div>
+    </div>
+  </div>
+</div>
+}
+
+<div class="flex flex-col min-h-screen">
+  <div class="flex-grow container mx-auto p-6 mt-12" [class]="isLoading ? 'hidden' : 'block'">
+    <!-- Title -->
+    <h1 class="text-4xl font-bold mb-10">
+      {{ tourDetails?.name }}
+    </h1>
+
+    <div class="grid grid-cols-12 gap-4">
+      <!-- Left Thumbnail Images -->
+
+
+      <!-- Main Image -->
+      <div class="col-span-9">
+        <div class="bg-gray-300 w-full h-[690px] flex items-center rounded-xl  justify-center ">
+          <img [src]="tourDetails?.thumbnailUrl" alt="" class="w-full h-[690px] rounded-xl object-cover" />
+        </div>
+      </div>
+
+      <!-- Tour Details Card -->
+      <div class="col-span-3">
+        <div class="bg-gray-100 p-4 rounded-lg shadow-md h-fit
+              fixed top-[234px] w-[22rem] max-h-[calc(100vh-6rem)] overflow-auto z-10">
+          @if(selectedSchedule) {
+          <h2 class="text-lg font-semibold">Giá vé: </h2>
+          @if(selectedSchedule?.discountPercent > 0) {
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="mb-1 px-2 py-0.5 bg-red-600 text-white text-xs rounded-full">
+              -{{ selectedSchedule?.discountPercent }}%
+            </span>
+            <span class="text-red-600 text-2xl font-bold">
+              {{ priceAfterDiscount(selectedSchedule?.price, selectedSchedule?.discountPercent) | currencyVnd }}
+            </span>
+
+            <span class="text-sm ml-1">/ Người</span>
+          </div>
+          } @else {
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="text-red-600 text-2xl font-bold">
+              {{ selectedSchedule?.price | currencyVnd }}
+            </span>
+            <span class="text-sm ml-1">/ Người</span>
+          </div>
+          }
+          <div class="mt-3 space-y-2 text-gray-700 text-sm">
+            <p>📍 Điểm xuất phát: {{ tourDetails?.departLocationName }}</p>
+            <p>
+              📅 Thời lượng: {{ tourDetails?.durationDays | durationFormat }}
+            </p>
+            <p>🛑 Còn lại: {{ selectedSchedule?.availableSeats }} chỗ</p>
+          </div>
+          <!-- Action Buttons -->
+          <div class="mt-4 flex gap-2">
+            <button (click)="resetSchedule()"
+              class="w-1/2 px-4 py-2 text-sm font-semibold border border-blue-500 text-blue-500 rounded-md hover:bg-blue-100">
+              Ngày khác
+            </button>
+            <button (click)="navigateToDetails()"
+              class="w-1/2 px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700">
+              Đặt chỗ
+            </button>
+          </div>
+          } @else {
+          <h2 class="text-lg font-semibold">Giá từ</h2>
+          <div class="flex items-baseline gap-2 mt-1">
+            <p class="text-red-600 text-2xl font-bold">
+              {{ price | currencyVnd}}
+            </p>
+            <span class="text-sm">/ Người</span>
+          </div>
+          <div class="mt-4 flex gap-2">
+            <button type="button" (click)="scrollToSchedule('schedule2')"
+              class="w-full px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 hover:cursor-pointer">
+              📅 Chọn ngày khởi hành
+            </button>
+          </div>
+          }
+        </div>
+      </div>
+
+      <div id="schedule2" class="col-span-9 p-4 rounded-lg mt-10">
+        <h2 class="font-semibold text-center mb-10 text-4xl text-blue-700">Lịch trình Tour</h2>
+        <div class="max-h-[85rem] w-[1100px] flex items-stretch gap-8 ">
+          <div
+            class="max-h-[80rem] w-[15%] flex flex-col justify-start items-center shadow-md rounded-xl border border-gray-300 overflow-y-auto relative flex-grow pb-8">
+            <div class="bg-white font-bold flex flex-col justify-center items-center p-12 px-6 top-0 w-full">
+              <span>Chọn tháng</span>
+            </div>
+            <div class="flex flex-col gap-8 mb-8">
+              @for (cal of uniqueMonths; track $index) {
+              <button (click)="goToMonth(cal.split('/')[0], cal.split('/')[1])" type="button"
+                class="text-blue-700 hover:text-white border p-6 rounded-xl border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800">
+                {{ cal }}
+              </button>
+              }
+            </div>
+          </div>
+          <div class="public w-[85%] p-8 px-12 bg-white shadow-md rounded-xl border border-gray-300 overflow-hidden">
+            @if(!isLoading) {
+            <full-calendar #calendar *ngIf="isBrowser" [options]="calendarOptions"></full-calendar>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="col-span-9 p-4 rounded-lg shadow-md mt-5">
+        <div class="mb-4 border-b pb-2">
+          <p class="text-lg font-semibold">Mô tả chương trình</p>
+        </div>
+
+        <!-- Nội dung có hiệu ứng cao độ -->
+        <div class="relative">
+          <div [class]="isShow ? 'max-h-[750px]' : 'max-h-[250px]'"
+            class="overflow-hidden transition-all duration-500 ease-in-out ">
+            <div [innerHTML]="tourDetails?.description"></div>
+          </div>
+        </div>
+
+        <!-- Nút bấm rõ ràng, không dùng label/checkbox nữa -->
+        <div class="flex justify-center mt-3"> <!-- CHANGE -->
+          <button type="button" (click)="showOrHide()" class="text-blue-600 font-semibold hover:underline">
+            {{ isShow ? 'Thu gọn' : 'Xem thêm' }}
+          </button>
+        </div>
+      </div>
+
+
+      <div class="col-span-9 p-4 rounded-lg mt-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-center text-blue-700 mb-6">
+          Nội dung Tour
+        </h2>
+        <div id="accordion-days" class="border border-gray-200 rounded-xl overflow-hidden "> <!-- CHANGE -->
+          @for (day of tourDetails?.days; track $index) { <!-- CHANGE -->
+          <div class="border-b last:border-b-0 "> <!-- CHANGE -->
+            <button type="button"
+              (click)="toggleDay($index)"
+              class="w-full flex items-center justify-between p-4
+              font-medium text-gray-700 hover:bg-gray-50"> <!-- CHANGE -->
+              <span class="text-left"><strong>{{ day?.title }}</strong></span> <!-- CHANGE -->
+              <svg class="w-4 h-4 transition-transform" 
+                [class.rotate-180]="isDayOpen($index)">
+                <path d="M9 5 5 1 1 5" stroke="currentColor" stroke-width="2" fill="none"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+
+            <!-- Nội dung ngày -->
+            @if(isDayOpen($index)) { <!-- CHANGE -->
+            <div class="p-4 text-gray-700 bg-white"> <!-- CHANGE -->
+              <div [innerHTML]="day?.description"></div> <!-- CHANGE -->
+            </div>
+            } <!-- CHANGE -->
+          </div>
+          }
+        </div>
+
+      </div>
+
+      <div class="col-span-9 p-4 rounded-lg mt-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-center text-blue-700 mb-6">
+          Những điều khoản cần lưu ý
+        </h2>
+
+        @if(policiesLoading) { <!-- CHANGE -->
+        <div class="space-y-3"> <!-- CHANGE -->
+          <div class="h-6 bg-gray-200 animate-pulse rounded"></div> <!-- CHANGE -->
+          <div class="h-6 bg-gray-200 animate-pulse rounded w-2/3"></div> <!-- CHANGE -->
+          <div class="h-6 bg-gray-200 animate-pulse rounded w-1/2"></div> <!-- CHANGE -->
+        </div> <!-- CHANGE -->
+        } @else {
+        <div id="policy-accordion" class="divide-y divide-gray-200"> <!-- CHANGE -->
+
+          @if(policy?.tourPolicy) { <!-- CHANGE -->
+          <section class="py-2"> <!-- CHANGE -->
+            <button type="button" (click)="policyOpen.tour = !policyOpen.tour"
+              class="w-full flex items-center justify-between p-4 text-left rounded-lg hover:bg-gray-50">
+              <span class="font-semibold text-lg ">Điều khoản Tour</span>
+              <svg [class.rotate-180]="!policyOpen.tour" class="w-4 h-4 transition-transform">
+                <use href="#chev"></use>
+              </svg>
+            </button>
+            @if(policyOpen.tour) {
+            <div class="px-4 pb-4 text-gray-700">
+              <div [innerHTML]="formatPolicy(policy?.tourPolicy)"></div> <!-- CHANGE -->
+            </div>
+            }
+          </section>
+          }
+
+          @if(policy?.bookingPolicy) { <!-- CHANGE -->
+          <section class="py-2"> <!-- CHANGE -->
+            <button type="button" (click)="policyOpen.booking = !policyOpen.booking"
+              class="w-full flex items-center justify-between p-4 text-left rounded-lg hover:bg-gray-50">
+              <span class="font-semibold text-lg ">Điều khoản Đặt chỗ</span>
+              <svg [class.rotate-180]="!policyOpen.booking" class="w-4 h-4 transition-transform">
+                <use href="#chev"></use>
+              </svg>
+            </button>
+            @if(policyOpen.booking) {
+            <div class="px-4 pb-4 text-gray-700">
+              <div [innerHTML]="formatPolicy(policy?.bookingPolicy)"></div> <!-- CHANGE -->
+            </div>
+            }
+          </section>
+          }
+
+          @if(policy?.cancellationPolicy) { <!-- CHANGE -->
+          <section class="py-2">
+            <button type="button" (click)="policyOpen.cancel = !policyOpen.cancel"
+              class="w-full flex items-center justify-between p-4 text-left rounded-lg hover:bg-gray-50">
+              <span class="font-semibold text-lg ">Chính sách Hủy</span>
+              <svg [class.rotate-180]="!policyOpen.cancel" class="w-4 h-4 transition-transform">
+                <use href="#chev"></use>
+              </svg>
+            </button>
+            @if(policyOpen.cancel) {
+            <div class="px-4 pb-4 text-gray-700">
+              <div [innerHTML]="formatPolicy(policy?.cancellationPolicy)"></div> <!-- CHANGE -->
+            </div>
+            }
+          </section>
+          }
+
+          @if(policy?.tourPrice) { <!-- CHANGE -->
+          <section class="py-2">
+            <button type="button" (click)="policyOpen.price = !policyOpen.price"
+              class="w-full flex items-center justify-between p-4 text-left rounded-lg hover:bg-gray-50">
+              <span class="font-semibold text-lg ">Giá tour & Phụ phí</span>
+              <svg [class.rotate-180]="!policyOpen.price" class="w-4 h-4 transition-transform">
+                <use href="#chev"></use>
+              </svg>
+            </button>
+            @if(policyOpen.price) {
+            <div class="px-4 pb-4 text-gray-700">
+              <div [innerHTML]="formatPolicy(policy?.tourPrice)"></div> <!-- CHANGE -->
+            </div>
+            }
+          </section>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Sprite icon đơn giản cho mũi tên ▼ -->
+      <svg class="hidden"> <!-- CHANGE -->
+        <symbol id="chev" viewBox="0 0 10 6"> <!-- CHANGE -->
+          <path d="M9 1L5 5L1 1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"
+            stroke-linejoin="round"></path> <!-- CHANGE -->
+        </symbol> <!-- CHANGE -->
+      </svg> <!-- CHANGE -->
+
+
+
+    </div>
+    <div class="p-4 rounded-lg mt-4">
+      <div class="max-w-7xl mx-auto py-10">
+        <!-- Heading -->
+        <!-- <h2 class="text-2xl md:text-3xl font-bold text-center text-blue-700 mb-6">
+          CÁC CHƯƠNG TRÌNH KHÁC
+        </h2> -->
+        <!-- Cards Container -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          @for (tour of tourDetails?.otherTours; track $index) {
+          <!-- Tour Card -->
+          <div
+            class="cursor-pointer relative rounded-lg shadow-md hover:shadow-xl overflow-hidden border border-gray-200 flex flex-col h-96 group">
+            <!-- Background Image with Zoom Effect -->
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110">
+              <img [src]="tour?.tourImages?.[0]?.imageUrl" alt="" class="w-full h-full object-cover">
+            </div>
+            <!-- Favorite Icon -->
+            <!-- <button (click)="addToWishlist(tour.id)" data-modal-toggle="wishlistModal" data-modal-target="wishlistModal"
+              class="absolute top-2 left-2 bg-white p-2 rounded-full shadow-md">
+              <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
+              </svg>
+            </button> -->
+            <!-- Info Section -->
+            <div
+              class="absolute bottom-3 left-3 right-3 p-4 bg-white bg-opacity-80 hover:bg-opacity-70 text-black rounded-lg transition-all duration-300">
+              <h3 class="text-lg font-semibold">{{ tour.name | truncate: 40 }}</h3>
+              <p class="text-sm mt-1">
+                📍 Điểm xuất phát: <span class="text-green-700 font-semibold">{{ tour?.departLocation.name }}</span>
+              </p>
+              <p class="text-sm">
+                🏷️ Thời lượng: <span class="font-semibold">{{ tour?.numberDays }}N{{ tour?.numberNight }}Đ</span>
+              </p>
+              <!-- Price & Button Section -->
+              <div class="flex justify-between items-center p-2 bg-opacity-60 rounded-lg">
+                <div class="">
+                  <p>Price: </p>
+                  <p class="text-blue-600 text-2xl font-bold">{{ tour?.priceFrom | currencyVnd }}</p>
+                </div>
+                <a href="#" class="text-black hover:text-green-700 font-semibold hover:underline">Xem chi tiết →</a>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer cố định ở cuối trang -->
+  <!-- <app-footer *ngIf="!isLoading" class="mt-auto"></app-footer> -->
+</div>

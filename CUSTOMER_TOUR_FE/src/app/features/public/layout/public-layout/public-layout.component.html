@@ -1,0 +1,17 @@
+<div class="flex flex-col min-h-screen">
+  <!-- Header -->
+  <app-header [currentUser]="currentUser" [customerBasicInfo]="customerBasicInfo" [friends]="friends"
+    [isUserReady]="isUserReady" [chatGroups]="chatGroups"></app-header>
+
+  <!-- Main Content -->
+  <div id="main-content" class="flex-1 relative overflow-auto">
+    <router-outlet></router-outlet>
+  </div>
+  <app-footer></app-footer>
+  <app-banner></app-banner>
+  <app-chat-icon></app-chat-icon>
+
+  <!-- <app-chat-box></app-chat-box> -->
+
+
+</div>
