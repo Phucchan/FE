@@ -9,7 +9,7 @@ export interface BlogItem {
   title: string;
   thumbnailImageUrl: string;
   authorName: string;
-  createdAt: string; // API trả về string, ta giữ nguyên là string để dễ xử lý
+  createdAt: string;
   tags: string[];
 }
 
@@ -32,7 +32,7 @@ export interface BlogDetail {
   id: number;
   title: string;
   description: string;
-  content: string; // Trường này chứa nội dung đầy đủ của bài viết
+  content: string;
   thumbnailImageUrl: string;
   authorName: string;
   createdAt: string;

@@ -11,7 +11,6 @@ import {
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-// --- [THÊM MỚI] Imports cho các module của NG-ZORRO ---
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -37,7 +36,6 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
 @Component({
   selector: 'app-list-service-provider',
   standalone: true,
-  // --- [CẬP NHẬT] Thêm các module của NG-ZORRO vào imports ---
   imports: [
     CommonModule,
     RouterModule,
@@ -74,7 +72,7 @@ export class ListServiceProviderComponent implements OnInit {
   constructor(
     private partnerService: PartnerService,
     private router: Router,
-    private message: NzMessageService // [THÊM MỚI] Inject NzMessageService để hiển thị thông báo
+    private message: NzMessageService // Inject NzMessageService để hiển thị thông báo
   ) {
     this.filterForm = new FormGroup({
       keyword: new FormControl(''),
@@ -110,7 +108,7 @@ export class ListServiceProviderComponent implements OnInit {
     this.isLoading = true;
     const { keyword, isDeleted } = this.filterForm.value;
 
-    // [CẬP NHẬT] Chuyển đổi page index từ 1-based (của Zorro) sang 0-based (của API)
+    //Chuyển đổi page index từ 1-based (của Zorro) sang 0-based (của API)
     const apiPageIndex = this.currentPage - 1;
 
     return this.partnerService
@@ -149,7 +147,7 @@ export class ListServiceProviderComponent implements OnInit {
 
   /**
    * Thay đổi trạng thái của đối tác.
-   * [CẬP NHẬT] Sử dụng NzMessageService để hiển thị thông báo thay vì alert().
+   * Sử dụng NzMessageService để hiển thị thông báo thay vì alert().
    * Popconfirm đã xử lý việc hỏi xác nhận.
    */
   toggleStatus(partner: PartnerSummary): void {

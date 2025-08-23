@@ -6,7 +6,7 @@ import {
   computed,
   TemplateRef,
 } from '@angular/core';
-import { ActivatedRoute, RouterLink, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -58,7 +58,6 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterLink,
     CurrencyVndPipe,
     // --- NZ-ZORRO ---
     NzTableModule,

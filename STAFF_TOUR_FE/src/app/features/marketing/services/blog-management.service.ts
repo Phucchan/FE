@@ -13,7 +13,7 @@ import {
   GeneralResponse,
   PagingDTO,
   BlogManagerRequestDTO,
-  BlogDetailDTO, // SỬA LỖI: Đổi tên từ BlogDetailManagerDTO thành BlogDetailDTO
+  BlogDetailDTO,
 } from '../models/blog.model';
 
 @Injectable({
@@ -37,7 +37,6 @@ export class BlogManagementService {
     );
   }
 
-  // SỬA LỖI: Cập nhật kiểu dữ liệu trả về
   getBlogDetail(id: number): Observable<GeneralResponse<BlogDetailDTO>> {
     return this.http.get<GeneralResponse<BlogDetailDTO>>(
       `${this.apiUrl}/${id}`

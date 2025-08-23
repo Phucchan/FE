@@ -52,7 +52,7 @@ export class CreateRefundBillModalComponent implements OnInit {
   validateForm!: FormGroup;
   paymentMethods = Object.values(PaymentMethod);
 
-  // Thêm hàm định dạng tiền tệ
+  // Hàm định dạng tiền tệ
   formatterVND = (value: number): string =>
     value ? `${value.toLocaleString('vi-VN')} ₫` : '';
   parserVND = (value: string): number =>

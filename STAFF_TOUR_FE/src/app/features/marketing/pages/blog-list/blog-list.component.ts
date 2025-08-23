@@ -14,7 +14,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
-import { NzDividerModule } from 'ng-zorro-antd/divider'; // SỬA LỖI 2: Thêm NzDividerModule
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 import { BlogManagementService } from '../../services/blog-management.service';
 import { BlogManagerDTO, PagingDTO } from '../../models/blog.model';
@@ -32,7 +32,7 @@ import { BlogManagerDTO, PagingDTO } from '../../models/blog.model';
     NzTagModule,
     NzDropDownModule,
     NzPopconfirmModule,
-    NzDividerModule, // SỬA LỖI 2: Thêm NzDividerModule
+    NzDividerModule,
   ],
   templateUrl: './blog-list.component.html',
 })
@@ -86,7 +86,6 @@ export class BlogListComponent implements OnInit {
     this.loadBlogs(pageIndex - 1, pageSize);
   }
 
-  // SỬA LỖI 3: Bỏ 'private' để template có thể truy cập
   deleteBlog(blogId: number): void {
     this.blogService.deleteBlog(blogId).subscribe({
       next: (response) => {

@@ -6,7 +6,6 @@ import { SubMenuItem } from '../models/menu.model';
 @Injectable({
   providedIn: 'root',
 })
-// Sửa lỗi: Đổi tên class thành 'LayoutService' (viết hoa chữ L)
 export class LayoutService implements OnDestroy {
   private _showSidebar = signal(true);
   private _showMobileMenu = signal(false);

@@ -23,11 +23,9 @@ import { finalize, map } from 'rxjs/operators';
 import { TourService } from '../../../../core/services/tour.service';
 import { PartnerServiceService } from '../../../../core/services/partner-service.service';
 
-// ---  Import service và model thật từ module coordinator ---
 import { PartnerService } from '../../../coordinator/services/partner.service';
 import { PartnerSummary } from '../../../coordinator/models/partner.model';
 
-// Các model này đã được xác nhận là nằm trong tour.model.ts
 import {
   TourOption,
   PartnerServiceShortDTO,
@@ -80,7 +78,6 @@ export class TourDayFormComponent implements OnInit, OnChanges {
   private tourService = inject(TourService);
   private partnerFilterService = inject(PartnerServiceService);
   private message = inject(NzMessageService);
-  // --- SỬA ĐỔI: Inject service thật ---
   private partnerService = inject(PartnerService);
 
   // --- Inputs & Outputs ---
@@ -106,7 +103,6 @@ export class TourDayFormComponent implements OnInit, OnChanges {
   isCreateServiceModalVisible = false;
   isCreatingService = false;
   newServiceForm!: FormGroup;
-  // --- SỬA ĐỔI: Sử dụng model PartnerSummary thật ---
   partners$!: Observable<PartnerSummary[]>;
 
   constructor() {
@@ -242,7 +238,6 @@ export class TourDayFormComponent implements OnInit, OnChanges {
     this.close.emit();
   }
 
-  // --- New Service Modal Methods ---
   openCreateServiceModal(): void {
     this.newServiceForm.reset();
     this.isCreateServiceModalVisible = true;

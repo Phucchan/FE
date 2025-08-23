@@ -27,7 +27,7 @@ export interface TourSchedule {
   id: number;
   coordinatorId: number;
   tourPaxId: number;
-  departureDate: string; // Dữ liệu từ backend là LocalDateTime, nhận về dạng string ISO
+  departureDate: string;
   endDate: string;
   coordinator?: UserBasic;
   tourPax?: TourPaxOption;
@@ -39,7 +39,7 @@ export interface TourSchedule {
 export interface TourScheduleCreateRequest {
   coordinatorId: number;
   tourPaxId: number;
-  departureDate: string; // Gửi lên server dưới dạng ISO string
-  repeatType?: 'NONE' | 'WEEKLY' | 'MONTHLY' | 'YEARLY'; // Enum từ backend
+  departureDate: string;
+  repeatType?: 'NONE' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
   repeatCount?: number;
 }

@@ -1,9 +1,6 @@
 /*
  * FILE: src/app/features/business/pages/dashboard/dashboard.component.ts
- * MÔ TẢ:
- * - Thêm các module NG-ZORRO cần thiết cho Dashboard.
- * - Cập nhật form lọc ngày để sử dụng nz-range-picker.
- */
+*/
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -17,7 +14,6 @@ import {
   startWith,
 } from 'rxjs/operators';
 
-// --- [THAY ĐỔI] Import các module của NG-ZORRO ---
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
@@ -40,7 +36,6 @@ import {
     CommonModule,
     ReactiveFormsModule,
     NgxChartsModule,
-    // --- [THAY ĐỔI] Thêm các module NG-ZORRO vào imports ---
     NzGridModule,
     NzCardModule,
     NzStatisticModule,
@@ -89,7 +84,6 @@ export class DashboardComponent implements OnInit {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(today.getDate() - 30);
 
-    // --- [THAY ĐỔI] Cập nhật form để dùng với nz-range-picker ---
     this.filterForm = this.fb.group({
       dateRange: [[thirtyDaysAgo, today]],
     });

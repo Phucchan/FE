@@ -1,12 +1,9 @@
 import { Routes } from '@angular/router';
 
-// LOẠI BỎ: import { LayoutComponent } from './layout/layout.component';
-
 /**
  * BUSINESS_ROUTES giờ đây là một mảng các trang đơn lẻ, không còn layout riêng.
  */
 export const BUSINESS_ROUTES: Routes = [
-  // Bỏ cấu trúc cha-con với LayoutComponent
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   {
     path: 'dashboard',

@@ -24,7 +24,7 @@
 
       <!-- Hiển thị danh sách các ngày -->
       <div *ngIf="days.length > 0" class="mt-4 space-y-4">
-        <!-- SỬA ĐỔI: Chuyển các action lên nz-card-extra để gọn gàng hơn -->
+        <!--  Chuyển các action lên nz-card-extra để gọn gàng hơn -->
         <nz-card *ngFor="let day of days">
           <nz-card-meta
             [nzTitle]="titleTemplate"
@@ -52,7 +52,7 @@
             </div>
           </ng-template>
 
-          <!-- SỬA ĐỔI: Hiển thị danh sách dịch vụ chi tiết thay vì chỉ tag tên -->
+          <!-- Hiển thị danh sách dịch vụ chi tiết thay vì chỉ tag tên -->
           <div class="mt-4">
               <h4 class="font-semibold mb-2 text-gray-700">Các dịch vụ trong ngày:</h4>
               <div *ngIf="day.services && day.services.length > 0; else noServices">

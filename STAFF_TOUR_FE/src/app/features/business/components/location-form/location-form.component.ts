@@ -59,7 +59,6 @@ export class LocationFormComponent implements OnInit, OnChanges {
   isSubmitting = false;
   imagePreview: string | ArrayBuffer | null = null;
   fileList: NzUploadFile[] = [];
-  // FIX: Changed from private to public to be accessible in the template
   public selectedFile: File | null = null;
 
   constructor() {
@@ -121,7 +120,6 @@ export class LocationFormComponent implements OnInit, OnChanges {
 
     this.selectedFile = file as unknown as File;
     const reader = new FileReader();
-    // FIX: Handle potential null value from e.target
     reader.onload = (e) => (this.imagePreview = e.target?.result ?? null);
     reader.readAsDataURL(this.selectedFile);
 

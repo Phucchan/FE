@@ -1,8 +1,5 @@
 /*
  * FILE: src/app/features/admin/post-staff-detail/post-staff-detail.component.ts
- * MÔ TẢ:
- * - Thêm các module NG-ZORRO cần thiết cho form.
- * - Thay thế alert() bằng NzMessageService để có thông báo đẹp hơn.
  */
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
@@ -16,7 +13,6 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
-// --- [THAY ĐỔI] Import các module của NG-ZORRO ---
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -36,7 +32,6 @@ import { CustomValidators } from '../../../../core/validators/custom-validators'
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    // --- [THAY ĐỔI] Thêm các module NG-ZORRO vào imports ---
     NzFormModule,
     NzInputModule,
     NzButtonModule,
@@ -62,7 +57,6 @@ export class PostStaffDetailComponent implements OnInit {
   private adminService = inject(AdminService);
   private router = inject(Router);
   private location = inject(Location);
-  // --- [THAY ĐỔI] Inject NzMessageService ---
   private message = inject(NzMessageService);
 
   constructor() {}

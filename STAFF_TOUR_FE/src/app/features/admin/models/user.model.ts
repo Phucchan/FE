@@ -27,5 +27,5 @@ export interface UserManagementRequest {
 
 // Định nghĩa cho việc thay đổi trạng thái
 export interface ChangeStatusRequest {
-  newStatus: 'ACTIVE' | 'INACTIVE' | 'DELETED'; // Các trạng thái có thể có từ BE
+  newStatus: 'ACTIVE' | 'INACTIVE' | 'DELETED';
 }

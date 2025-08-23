@@ -17,7 +17,6 @@ export interface TourRevenue {
   totalRevenue: number;
 }
 
-// Model cho thống kê booking
 export interface BookingStats {
   cancelledBookings: number;
   returningCustomers: number;

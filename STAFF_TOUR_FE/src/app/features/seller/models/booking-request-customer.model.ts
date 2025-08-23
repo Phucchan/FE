@@ -3,7 +3,7 @@
 export interface BookingRequestCustomer {
   fullName: string;
   gender: 'MALE' | 'FEMALE' | 'OTHER';
-  dateOfBirth: string; // YYYY-MM-DD
+  dateOfBirth: string;
   singleRoom: boolean;
   paxType: 'ADULT' | 'CHILD' | 'INFANT' | 'TODDLER';
   email?: string;

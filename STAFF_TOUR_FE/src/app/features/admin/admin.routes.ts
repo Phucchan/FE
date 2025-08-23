@@ -1,13 +1,6 @@
 import { Routes } from '@angular/router';
 
-// LOẠI BỎ: import { LayoutComponent } from './layout/layout.component';
-
-/**
- * ADMIN_ROUTES giờ đây là một mảng các trang đơn lẻ.
- * Chúng sẽ được hiển thị bên trong <router-outlet> của LayoutComponent chung.
- */
 export const ADMIN_ROUTES: Routes = [
-  // Bỏ đi cấu trúc cha-con với LayoutComponent
   { path: '', redirectTo: 'list-customer', pathMatch: 'full' },
   {
     path: 'list-customer',

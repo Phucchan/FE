@@ -27,7 +27,6 @@ export interface BlogManagerDTO {
   deleted: boolean;
 }
 
-// SỬA LỖI 1: Đổi tên từ BlogDetailManagerDTO thành BlogDetailDTO
 export interface BlogDetailDTO {
   id: number;
   title: string;

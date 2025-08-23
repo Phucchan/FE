@@ -27,7 +27,7 @@ export interface TourListItem {
 
 /**
  * @description Dữ liệu chi tiết tour trả về từ API.
- * Cấu trúc này khớp với TourDetailManagerDTO đã sửa ở backend.
+ * Cấu trúc này khớp với TourDetailManagerDTO  ở backend.
  */
 export interface TourDetail {
   id: number;
@@ -40,7 +40,6 @@ export interface TourDetail {
   departLocation: TourOption;
   destinations: TourOption[];
   themes: TourOption[];
-  // Thêm thuộc tính để nhận dữ liệu request booking
   requestBooking?: RequestBookingInfo | null;
 }
 

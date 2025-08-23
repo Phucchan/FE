@@ -1,21 +1,16 @@
 /*
  * FILE: src/app/features/business/pages/request-booking-list/request-booking-list.component.ts
- * MÔ TẢ:
- * - Sửa lỗi import, sử dụng đúng type RequestBookingNotification.
- * - Cập nhật logic để sử dụng phân trang tích hợp của nz-table.
  */
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-// --- [THAY ĐỔI] Import các module của NG-ZORRO ---
 import { NzTableModule, NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 import { RequestBookingService } from '../../services/request-booking.service';
-// --- [SỬA LỖI] Import đúng type từ file model ---
 import {
   RequestBookingNotification,
   RequestBookingStatus,
@@ -28,7 +23,6 @@ import {
     CommonModule,
     RouterModule,
     DatePipe,
-    // --- [THAY ĐỔI] Thêm các module NG-ZORRO ---
     NzTableModule,
     NzTagModule,
     NzCardModule,
@@ -39,7 +33,6 @@ export class RequestBookingListComponent implements OnInit {
   private requestBookingService = inject(RequestBookingService);
   private message = inject(NzMessageService);
 
-  // --- [SỬA LỖI] Sử dụng đúng type cho mảng requests ---
   requests: RequestBookingNotification[] = [];
   isLoading = true;
   totalItems = 0;

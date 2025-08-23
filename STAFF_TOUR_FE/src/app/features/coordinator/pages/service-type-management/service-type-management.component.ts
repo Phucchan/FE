@@ -8,7 +8,6 @@ import {
   Validators,
 } from '@angular/forms';
 
-// --- [THÊM MỚI] Imports cho các module của NG-ZORRO ---
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -30,7 +29,6 @@ import { ServiceType } from '../../models/service-type.model';
 @Component({
   selector: 'app-service-type-management',
   standalone: true,
-  // --- [CẬP NHẬT] Thêm các module của NG-ZORRO ---
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -92,7 +90,6 @@ export class ServiceTypeManagementComponent implements OnInit {
         },
         error: (err) => {
           this.errorMessage = err.error?.message || 'Lỗi tải dữ liệu';
-          // [SỬA LỖI] Kiểm tra this.errorMessage trước khi truyền vào message.error
           if (this.errorMessage) {
             this.message.error(this.errorMessage);
           }

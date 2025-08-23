@@ -1,7 +1,5 @@
 <!--
  * FILE: src/app/features/admin/post-staff-detail/post-staff-detail.component.html
- * MÔ TẢ:
- * - Giao diện form đã được viết lại hoàn toàn bằng các component của NG-ZORRO.
 -->
 <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <!-- Nút quay lại -->
@@ -89,7 +87,7 @@
         <nz-form-control nzErrorTip="Vui lòng chọn ít nhất một vai trò.">
           <div formArrayName="roleNames" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             <div *ngFor="let role of availableRoles" class="flex items-center">
-              <input type="checkbox" [value]="role" (change)="onRoleChange($event)" class="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500">
+              <input type="checkbox" placeholder="checkbox" [value]="role" (change)="onRoleChange($event)" class="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500">
               <label class="ml-2 text-sm font-medium text-gray-900">{{role}}</label>
             </div>
           </div>

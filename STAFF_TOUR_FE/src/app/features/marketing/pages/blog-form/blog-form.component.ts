@@ -30,7 +30,6 @@ import { BlogManagerRequestDTO, BlogDetailDTO } from '../../models/blog.model';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    // EditorComponent has been removed
     NzFormModule,
     NzInputModule,
     NzButtonModule,
@@ -66,7 +65,6 @@ export class BlogFormComponent implements OnInit, OnDestroy {
     { label: 'Văn hóa', value: 4 },
   ];
 
-  // TinyMCE configuration has been removed
 
   constructor() {
     this.blogForm = this.fb.group({

@@ -1,8 +1,4 @@
-<!--
-  Ghi chú:
-  - Tinh chỉnh lại padding và font-weight để đồng bộ hoàn toàn.
-  - Sử dụng nz-empty cho trạng thái không có dữ liệu.
--->
+
 <div class="overflow-x-auto">
   <table class="min-w-full divide-y divide-gray-200">
     <thead class="bg-gray-50">
@@ -19,7 +15,6 @@
         <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{{ bill.createdDate | formatDate }}</td>
         <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 text-right font-medium">{{ bill.totalAmount | currencyVnd }}</td>
         <td class="px-4 py-3 whitespace-nowrap text-sm text-center">
-          <!-- Ghi chú: Đã loại bỏ logic *ngIf="bill.isPaid" vì model không có thuộc tính này. -->
           <button nz-button nzType="link" nzSize="small" (click)="onMarkPaid(bill.billId)" class="text-green-600 hover:text-green-800 p-0">
             <i nz-icon nzType="check-circle" nzTheme="outline"></i>
             <span>Xác nhận trả</span>

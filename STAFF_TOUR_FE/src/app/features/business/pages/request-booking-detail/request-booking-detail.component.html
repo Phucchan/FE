@@ -1,6 +1,6 @@
 <!-- src/app/features/business/pages/request-booking-detail/request-booking-detail.component.html -->
 <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <!-- THAY ĐỔI: Sử dụng viewData$ để lấy dữ liệu đã xử lý -->
+  <!-- Sử dụng viewData$ để lấy dữ liệu đã xử lý -->
   <ng-container *ngIf="viewData$ | async as view; else loading">
     <!-- Page Header -->
     <nz-page-header [nzGhost]="false" (nzBack)="goBack()" nzBackIcon>
@@ -28,7 +28,6 @@
       <!-- Left Column -->
       <div nz-col [nzXs]="24" [nzLg]="16">
         <nz-card nzTitle="Chi tiết yêu cầu">
-          <!-- THAY ĐỔI: Hiển thị đầy đủ thông tin -->
           <nz-descriptions nzBordered [nzColumn]="{ xs: 1, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 }">
             <nz-descriptions-item nzTitle="Hành trình">{{ view.request.startDate | date:'dd/MM/yyyy' }} - {{ view.request.endDate | date:'dd/MM/yyyy' }}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="Ngân sách dự kiến">{{ view.request.priceMin | currency:'VND' }} - {{ view.request.priceMax | currency:'VND' }}</nz-descriptions-item>

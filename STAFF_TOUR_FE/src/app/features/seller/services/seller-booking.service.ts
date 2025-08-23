@@ -152,13 +152,13 @@ export class SellerBookingService {
   getRequestBookings(
     page: number,
     size: number,
-    search?: string 
+    search?: string
   ): Observable<ApiResponse<Paging<RequestBookingSummary>>> {
     let  params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
-      // change: chỉ set search khi có giá trị
+      // chỉ set search khi có giá trị
   if (search && search.trim().length > 0) {
     params = params.set('search', search.trim());
   }

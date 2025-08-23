@@ -1,6 +1,5 @@
 <!--
   FILE: src/app/features/coordinator/pages/service-type-management/service-type-management.component.html
-  MÔ TẢ: Giao diện đã được chuyển đổi sang sử dụng các component của NG-ZORRO, bao gồm cả Modal.
 -->
 
 <!-- 1. Breadcrumb -->
@@ -42,14 +41,14 @@
         </td>
         <td nzAlign="center">
           <nz-space>
-            <button nz-button nzType="default" nzShape="circle" nz-tooltip="Chỉnh sửa" (click)="openEditModal(st)">
+            <button nz-button nzType="default" nzShape="circle" nz-tooltip="Chỉnh sửa" (click)="openEditModal(st)" aria-label="Chỉnh sửa">
               <span nz-icon nzType="edit"></span>
             </button>
-            <!-- [SỬA LỖI] Sử dụng đúng cú pháp cho nz-tooltip -->
             <button nz-button nzType="default" nzShape="circle"
               [attr.nz-tooltip]="st.deleted ? 'Kích hoạt lại' : 'Vô hiệu hóa'" nz-popconfirm
               [nzPopconfirmTitle]="'Bạn chắc chắn muốn ' + (st.deleted ? 'kích hoạt' : 'vô hiệu hóa') + ' loại dịch vụ này?'"
-              (nzOnConfirm)="toggleStatus(st)">
+              (nzOnConfirm)="toggleStatus(st)"
+              aria-label="Xác nhận">
               <span nz-icon [nzType]="st.deleted ? 'check-circle' : 'stop'"></span>
             </button>
           </nz-space>
@@ -62,7 +61,6 @@
 <!--
   4. Modal Thêm/Sửa.
 -->
-<!-- [SỬA LỖI] Sử dụng đúng thuộc tính [nzOkLoading] thay vì [nzConfirmLoading] -->
 <nz-modal [(nzVisible)]="isModalVisible" [nzTitle]="isEditMode ? 'Cập nhật Loại Dịch vụ' : 'Thêm mới Loại Dịch vụ'"
   (nzOnCancel)="handleCancel()" (nzOnOk)="onSubmit()" [nzOkLoading]="isSubmitting">
   <ng-container *nzModalContent>

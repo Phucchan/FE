@@ -18,7 +18,7 @@ import {
 export class DiscountService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/marketing/discounts`;
-  private scheduleApiUrl = `${environment.apiUrl}/business/schedules`; // Giả định URL API để tìm kiếm schedule
+  private scheduleApiUrl = `${environment.apiUrl}/business/schedules`;
 
   /**
    * Lấy danh sách khuyến mãi có phân trang và tìm kiếm.
@@ -71,7 +71,6 @@ export class DiscountService {
     if (keyword) {
       params = params.set('keyword', keyword);
     }
-    // Ví dụ: GET /api/business/schedules/search?keyword=...
     return this.http.get<ApiResponse<TourScheduleSelectItem[]>>(
       `${this.scheduleApiUrl}/search`,
       { params }

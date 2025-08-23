@@ -78,7 +78,6 @@ export class DashboardService {
     endDate?: string
   ): Observable<ApiResponse<MonthlyRevenue[]>> {
     let params = this.createParams(startDate, endDate);
-    // API này không cần 'year' khi đã có khoảng thời gian
     params = params.append('year', new Date().getFullYear());
     return this.http.get<ApiResponse<MonthlyRevenue[]>>(
       `${this.apiUrl}/monthly`,

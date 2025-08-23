@@ -14,7 +14,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
   Validators,
-} from '@angular/forms'; // SỬA LỖI 1: Thêm FormsModule
+} from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
@@ -44,7 +44,7 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule, // SỬA LỖI 1: Thêm FormsModule vào imports
+    FormsModule,
     ReactiveFormsModule,
     NzCardModule,
     NzTableModule,
@@ -97,8 +97,6 @@ export class DiscountManagementComponent implements OnInit {
       .getDiscounts(keyword, page, size)
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe((res: ApiResponse<Paging<TourDiscountSummary>>) => {
-        // Thêm kiểu dữ liệu cho res
-        // SỬA LỖI 2: Kiểm tra 'status' thay vì 'isSuccess'
         if (res.status === 200) {
           this.data = res.data;
         }
@@ -142,8 +140,6 @@ export class DiscountManagementComponent implements OnInit {
         )
       )
       .subscribe((res: ApiResponse<TourScheduleSelectItem[]>) => {
-        // Thêm kiểu dữ liệu cho res
-        // SỬA LỖI 2: Kiểm tra 'status' thay vì 'isSuccess'
         if (res.status === 200) {
           this.tourSchedules = res.data;
         }
@@ -185,8 +181,6 @@ export class DiscountManagementComponent implements OnInit {
       .pipe(finalize(() => (this.isModalLoading = false)))
       .subscribe({
         next: (res: ApiResponse<TourDiscountSummary>) => {
-          // Thêm kiểu dữ liệu cho res
-          // SỬA LỖI 2: Kiểm tra 'status' thay vì 'isSuccess'
           if (res.status === 200) {
             this.message.success('Tạo khuyến mãi thành công!');
             this.isModalVisible = false;

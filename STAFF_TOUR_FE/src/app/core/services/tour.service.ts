@@ -70,7 +70,6 @@ export class TourService {
    * @returns Chi tiết tour đã tạo
    */
   createTourWithFile(formData: FormData): Observable<TourDetail> {
-    // Lưu ý: Không cần set Content-Type header, Angular sẽ tự động làm điều đó
     return this.http
       .post<ApiResponse<TourDetail>>(`${this.toursApiUrl}`, formData)
       .pipe(map((response) => response.data));

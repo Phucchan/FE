@@ -1,8 +1,4 @@
-<!--
-  Ghi chú:
-  - Chuyển sang layout label-on-top (nhãn ở trên) để dễ đọc và nhất quán hơn.
-  - Giảm khoảng cách dọc để form gọn gàng hơn trong modal.
--->
+
 <form nz-form [formGroup]="validateForm" class="py-2">
   <div class="space-y-4">
     <!-- Row: Người nộp/chi -->
@@ -75,7 +71,7 @@
     <nz-form-item>
       <nz-form-label>Ghi chú</nz-form-label>
       <nz-form-control>
-        <textarea nz-input formControlName="note" [nzAutosize]="{ minRows: 2, maxRows: 4 }"></textarea>
+        <textarea nz-input formControlName="note"  placeholder="Nhập ghi chú nếu có..." [nzAutosize]="{ minRows: 2, maxRows: 4 }"></textarea>
       </nz-form-control>
     </nz-form-item>
   </div>

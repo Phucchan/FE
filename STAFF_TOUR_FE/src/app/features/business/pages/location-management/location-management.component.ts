@@ -1,8 +1,5 @@
 /*
  * FILE: src/app/features/business/pages/location-management/location-management.component.ts
- * MÔ TẢ:
- * - Thêm các module NG-ZORRO cần thiết.
- * - Thay thế modal tự quản lý bằng NzModalService để hiển thị form.
  */
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -10,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-// --- [THAY ĐỔI] Import các module của NG-ZORRO ---
 import { NzTableModule, NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -103,13 +99,10 @@ export class LocationManagementComponent implements OnInit {
     const modalRef = this.modalService.create({
       nzTitle: modalTitle,
       nzContent: LocationFormComponent,
-      // [SỬA LỖI] Xóa thuộc tính 'nzComponentParams' không hợp lệ.
-      // Dữ liệu sẽ được truyền vào ở bước dưới.
       nzFooter: null, // Form sẽ tự có nút bấm
       nzWidth: '600px',
     });
 
-    // [SỬA LỖI] Gán dữ liệu vào @Input của component sau khi modal được tạo.
     if (modalRef.componentInstance) {
       modalRef.componentInstance.locationToEdit = location
         ? { ...location }

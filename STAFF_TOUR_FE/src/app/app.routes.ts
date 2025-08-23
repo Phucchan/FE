@@ -14,7 +14,6 @@ export const routes: Routes = [
     component: AdminLayoutComponent, // Layout CHUNG cho toàn bộ trang quản trị
     canActivate: [AuthGuard], // Guard bảo vệ tất cả các route con
     children: [
-      // --- Các module chức năng sẽ được render bên trong LayoutComponent ---
       {
         path: 'admin',
         loadChildren: () =>
@@ -53,7 +52,6 @@ export const routes: Routes = [
           ),
         data: { expectedRoles: ['ACCOUNTANT'] },
       },
-      // BỔ SUNG ROUTE CHO MARKETING
       {
         path: 'marketing',
         loadChildren: () =>

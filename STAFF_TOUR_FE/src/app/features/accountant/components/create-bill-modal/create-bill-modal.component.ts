@@ -1,7 +1,7 @@
 /*
 ----------------------------------------------------------------
 -- File: src/app/features/accountant/components/create-bill-modal/create-bill-modal.component.ts
--- Ghi chú: Component cho modal tạo phiếu thu/chi. (ĐÃ SỬA LỖI TRIỆT ĐỂ)
+-- Ghi chú: Component cho modal tạo phiếu thu/chi.
 ----------------------------------------------------------------
 */
 import { Component, OnInit, inject } from '@angular/core';
@@ -18,7 +18,6 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzMessageService } from 'ng-zorro-antd/message';
-// *** THAY ĐỔI 1: Import NZ_MODAL_DATA ***
 import { NZ_MODAL_DATA } from 'ng-zorro-antd/modal';
 import { AccountantService } from '../../services/accountant.service';
 import { PaymentMethod, PaymentType } from '../../../../core/models/enums';
@@ -47,10 +46,8 @@ interface CreateBillModalData {
 
 })
 export class CreateBillModalComponent implements OnInit {
-  // *** THAY ĐỔI 2: Xóa @Input, inject NZ_MODAL_DATA để lấy dữ liệu ***
   private modalData: CreateBillModalData = inject(NZ_MODAL_DATA);
 
-  // Các service khác không thay đổi
   private fb = inject(FormBuilder);
   private accountantService = inject(AccountantService);
   private messageService = inject(NzMessageService);
@@ -75,7 +72,7 @@ export class CreateBillModalComponent implements OnInit {
   private initializeForm(): void {
     const currentUser = this.currentUserService.getCurrentUser();
     this.validateForm = this.fb.group({
-      // *** THAY ĐỔI 3: Sử dụng getter để lấy dữ liệu, đảm bảo an toàn ***
+      // Sử dụng getter để lấy dữ liệu, đảm bảo an toàn ***
       payTo: [this.isReceipt() ? 'Công ty' : null, [Validators.required]],
       paidBy: [
         this.isReceipt() ? null : currentUser?.fullName || '',

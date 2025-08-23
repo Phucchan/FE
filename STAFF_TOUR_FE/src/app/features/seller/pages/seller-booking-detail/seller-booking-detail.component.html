@@ -1,6 +1,5 @@
 <!--
   FILE: src/app/features/seller/pages/seller-booking-detail/seller-booking-detail.component.html
-  MÔ TẢ: Giao diện đã được tái cấu trúc hoàn toàn bằng các component của NG-ZORRO.
 -->
 
 <nz-spin [nzSpinning]="isLoading" nzTip="Đang tải dữ liệu...">
@@ -84,31 +83,31 @@
             <nz-form-item>
               <nz-form-label nzRequired>Họ và tên</nz-form-label>
               <nz-form-control nzErrorTip="Vui lòng nhập họ và tên.">
-                <input nz-input formControlName="fullName" />
+                <input nz-input formControlName="fullName" placeholder="Nhập họ và tên"/>
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
               <nz-form-label nzRequired>Email</nz-form-label>
               <nz-form-control nzErrorTip="Email không hợp lệ.">
-                <input nz-input formControlName="email" type="email" />
+                <input nz-input formControlName="email" type="email" placeholder="Nhập email" />
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
               <nz-form-label nzRequired>Số điện thoại</nz-form-label>
               <nz-form-control nzErrorTip="Số điện thoại không hợp lệ.">
-                <input nz-input formControlName="phone" />
+                <input nz-input formControlName="phone" placeholder="Nhập số điện thoại" />
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
               <nz-form-label nzRequired>Địa chỉ</nz-form-label>
               <nz-form-control nzErrorTip="Vui lòng nhập địa chỉ.">
-                <input nz-input formControlName="address" />
+                <input nz-input formControlName="address" placeholder="Nhập địa chỉ" />
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
               <nz-form-label>Hạn thanh toán</nz-form-label>
               <nz-form-control nzErrorTip="Hạn thanh toán không được là ngày trong quá khứ.">
-                <input type="datetime-local" class="ant-input" formControlName="paymentDeadline" />
+                <input type="datetime-local" class="ant-input" formControlName="paymentDeadline" placeholder="Chọn hạn thanh toán"/>
               </nz-form-control>
             </nz-form-item>
             <div class="mt-4 text-right">
@@ -167,16 +166,16 @@
       <form nz-form [formGroup]="mailForm">
         <nz-form-item>
           <nz-form-label>Gửi đến</nz-form-label>
-          <nz-form-control><input nz-input formControlName="email" /></nz-form-control>
+          <nz-form-control><input nz-input formControlName="email" placeholder="Nhập email" /></nz-form-control>
         </nz-form-item>
         <nz-form-item>
           <nz-form-label nzRequired>Tiêu đề</nz-form-label>
-          <nz-form-control nzErrorTip="Vui lòng nhập tiêu đề!"><input nz-input formControlName="subject" /></nz-form-control>
+          <nz-form-control nzErrorTip="Vui lòng nhập tiêu đề!"><input nz-input formControlName="subject" placeholder="Nhập tiêu đề" /></nz-form-control>
         </nz-form-item>
         <nz-form-item>
           <nz-form-label nzRequired>Nội dung</nz-form-label>
           <nz-form-control nzErrorTip="Vui lòng nhập nội dung!">
-            <textarea nz-input formControlName="content" [nzAutosize]="{ minRows: 10, maxRows: 15 }"></textarea>
+            <textarea nz-input formControlName="content" [nzAutosize]="{ minRows: 10, maxRows: 15 }" placeholder="Nhập nội dung"></textarea>
           </nz-form-control>
         </nz-form-item>
       </form>
@@ -210,7 +209,7 @@
               <div nz-col [nzSpan]="12">
                 <nz-form-item><nz-form-label nzRequired>Ngày sinh</nz-form-label>
                   <nz-form-control [nzErrorTip]="dobErrorTpl">
-                    <input type="date" class="ant-input" formControlName="dateOfBirth" />
+                    <input type="date" class="ant-input" formControlName="dateOfBirth" placeholder="Chọn ngày sinh" />
                     <ng-template #dobErrorTpl let-control>
                       <ng-container *ngIf="control.hasError('required')">Vui lòng chọn ngày sinh.</ng-container>
                       <ng-container *ngIf="control.hasError('noFutureDate')">Ngày sinh không hợp lệ.</ng-container>
@@ -261,7 +260,7 @@
       <form nz-form [formGroup]="editCustomerForm" class="py-4">
         <nz-form-item>
           <nz-form-label nzRequired>Họ và tên</nz-form-label>
-          <nz-form-control nzErrorTip="Vui lòng nhập họ tên."><input nz-input formControlName="fullName" /></nz-form-control>
+          <nz-form-control nzErrorTip="Vui lòng nhập họ tên."><input nz-input formControlName="fullName" placeholder="Nhập họ tên" /></nz-form-control>
         </nz-form-item>
         <div nz-row [nzGutter]="16">
           <div nz-col [nzSpan]="12">
@@ -278,7 +277,7 @@
           <div nz-col [nzSpan]="12">
             <nz-form-item><nz-form-label nzRequired>Ngày sinh</nz-form-label>
               <nz-form-control nzErrorTip="Ngày sinh không hợp lệ.">
-                <input type="date" class="ant-input" formControlName="dateOfBirth" />
+                <input type="date" class="ant-input" formControlName="dateOfBirth" placeholder="Chọn ngày sinh"/>
               </nz-form-control>
             </nz-form-item>
           </div>

@@ -1,6 +1,5 @@
 <!--
   FILE: src/app/features/coordinator/pages/list-service-provider/list-service-provider.component.html
-  MÔ TẢ: Giao diện đã được chuyển đổi hoàn toàn sang sử dụng các component của NG-ZORRO.
 -->
 
 <!-- 1. Breadcrumb: Cung cấp ngữ cảnh điều hướng cho người dùng -->
@@ -80,18 +79,23 @@
           <!-- Sử dụng nz-space để tạo khoảng cách giữa các nút -->
           <nz-space>
             <!-- Nút chỉnh sửa -->
-            <button nz-button nz-tooltip="Chỉnh sửa" nzType="default" nzShape="circle" (click)="editPartner(partner.id)">
+            <button type="button" nz-tooltip="Chỉnh sửa" nzType="default" nzShape="circle" (click)="editPartner(partner.id)" aria-label="Chỉnh sửa nhà cung cấp">
               <span nz-icon nzType="edit"></span>
             </button>
             <!-- Nút thay đổi trạng thái với Popconfirm -->
-            <button nz-button nz-tooltip="{{ partner.deleted ? 'Kích hoạt lại' : 'Vô hiệu hóa' }}"
-              nzType="default" nzShape="circle"
-              nz-popconfirm
-              [nzPopconfirmTitle]="'Bạn chắc chắn muốn ' + (partner.deleted ? 'kích hoạt' : 'vô hiệu hóa') + ' nhà cung cấp này?'"
-              (nzOnConfirm)="toggleStatus(partner)"
-              [nzPopconfirmPlacement]="'topRight'">
-              <span nz-icon [nzType]="partner.deleted ? 'check-circle' : 'stop'" [nzTheme]="'outline'"></span>
-            </button>
+            <button nz-button
+        [nz-tooltip]="partner.deleted ? 'Kích hoạt lại' : 'Vô hiệu hóa'"
+        nzType="default"
+        nzShape="circle"
+        nz-popconfirm
+        [nzPopconfirmTitle]="'Bạn chắc chắn muốn ' + (partner.deleted ? 'kích hoạt' : 'vô hiệu hóa') + ' nhà cung cấp này?'"
+        (nzOnConfirm)="toggleStatus(partner)"
+        [nzPopconfirmPlacement]="'topRight'"
+        [attr.aria-label]="partner.deleted ? 'Kích hoạt lại nhà cung cấp' : 'Vô hiệu hóa nhà cung cấp'"
+        [title]="partner.deleted ? 'Kích hoạt lại nhà cung cấp' : 'Vô hiệu hóa nhà cung cấp'">
+  <span nz-icon [nzType]="partner.deleted ? 'check-circle' : 'stop'" [nzTheme]="'outline'"></span>
+  <span class="visually-hidden">{{ partner.deleted ? 'Kích hoạt lại nhà cung cấp' : 'Vô hiệu hóa nhà cung cấp' }}</span>
+</button>
           </nz-space>
         </td>
       </tr>
@@ -99,7 +103,6 @@
   </nz-table>
 
   <!--
-    [SỬA LỖI] Giao diện khi không có dữ liệu hoặc có lỗi.
     - Xóa binding [nzContent].
     - Đặt nội dung trực tiếp bên trong thẻ <nz-empty>.
     - Sử dụng *ngIf để hiển thị thông báo lỗi hoặc thông báo không có dữ liệu.

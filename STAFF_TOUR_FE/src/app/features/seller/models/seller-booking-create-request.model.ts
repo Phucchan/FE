@@ -9,7 +9,7 @@ export interface SellerBookingCreateRequest {
   tourId: number;
   scheduleId: number;
   note: string;
-  paymentMethod: 'VNPAY' | 'CASH'; // Giả sử có 2 phương thức này
+  paymentMethod: 'VNPAY' | 'CASH';
 
   // Thông tin người đặt
   fullName: string;

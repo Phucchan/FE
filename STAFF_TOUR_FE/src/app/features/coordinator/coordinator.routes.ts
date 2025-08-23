@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-// Đã sửa đường dẫn import để trỏ vào thư mục 'pages'
 import { ListServiceProviderComponent } from './pages/list-service-provider/list-service-provider.component';
 import { AddServiceProviderComponent } from './pages/list-service-provider/add-service-provider/add-service-provider.component';
 import { ServiceTypeManagementComponent } from './pages/service-type-management/service-type-management.component';

@@ -1,8 +1,5 @@
 <!--
  * FILE: src/app/features/admin/list-staff/list-staff.component.html
- * MÔ TẢ:
- * - Giao diện đã được viết lại hoàn toàn bằng NG-ZORRO và Tailwind CSS.
- * - [MỚI] Cập nhật nút hành động từ thẻ <a> sang <button> để đồng bộ giao diện.
 -->
 <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <!-- Page Header -->
@@ -43,7 +40,13 @@
           />
         </nz-input-group>
         <ng-template #suffixIconButton>
-          <button nz-button nzType="primary" nzSearch>
+          <button
+            type="button"
+            nz-button
+            nzType="primary"
+            nzSearch
+            aria-label="Tìm kiếm"
+          >
             <i nz-icon nzType="search"></i>
           </button>
         </ng-template>
@@ -102,17 +105,21 @@
               </div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <nz-tag *ngFor="let role of data.roleNames" [nzColor]="'blue'" class="m-1">{{
-                role
-              }}</nz-tag>
+              <nz-tag
+                *ngFor="let role of data.roleNames"
+                [nzColor]="'blue'"
+                class="m-1"
+                >{{ role }}</nz-tag
+              >
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-center">
               <nz-tag [nzColor]="getStatusColor(data.deleted)">
-                {{ (data.deleted ? 'INACTIVE' : 'ACTIVE') | statusVietnamese }}
+                {{ (data.deleted ? "INACTIVE" : "ACTIVE") | statusVietnamese }}
               </nz-tag>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-              <!-- [THAY ĐỔI] Thay thế thẻ <a> bằng <button> -->
+            <td
+              class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium"
+            >
               <button
                 nz-button
                 [nzType]="data.deleted ? 'default' : 'primary'"
@@ -127,17 +134,14 @@
                 (nzOnConfirm)="toggleStatus(data)"
                 nzSize="small"
               >
-                {{ data.deleted ? 'Mở khóa' : 'Khóa' }}
+                {{ data.deleted ? "Mở khóa" : "Khóa" }}
               </button>
             </td>
           </tr>
         </tbody>
       </nz-table>
       <!-- Empty State -->
-      <div
-        *ngIf="!isLoading && staffs.length === 0"
-        class="text-center py-16"
-      >
+      <div *ngIf="!isLoading && staffs.length === 0" class="text-center py-16">
         <nz-empty
           nzNotFoundImage="simple"
           nzNotFoundContent="Không tìm thấy nhân viên nào"

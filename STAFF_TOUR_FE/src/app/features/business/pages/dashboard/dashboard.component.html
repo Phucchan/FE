@@ -1,7 +1,5 @@
 <!--
  * FILE: src/app/features/business/pages/dashboard/dashboard.component.html
- * MÔ TẢ:
- * - Giao diện đã được viết lại hoàn toàn bằng các component của NG-ZORRO.
 -->
 <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <!-- Page Header -->
@@ -26,7 +24,7 @@
       <div nz-row [nzGutter]="[16, 16]" class="mb-6">
         <div nz-col [nzXs]="24" [nzSm]="12" [nzLg]="8">
           <nz-card>
-            <!-- [SỬA LỖI] Thêm ?? '' để xử lý trường hợp pipe trả về null -->
+            <!-- Thêm ?? '' để xử lý trường hợp pipe trả về null -->
             <nz-statistic [nzValue]="(totalRevenue | currency:'VND':'symbol':'1.0-0') ?? ''" [nzTitle]="'Tổng Doanh Thu'" [nzPrefix]="revenueIcon"></nz-statistic>
             <ng-template #revenueIcon><i nz-icon nzType="dollar-circle" nzTheme="twotone" [nzTwotoneColor]="'#52c41a'"></i></ng-template>
           </nz-card>
@@ -54,7 +52,6 @@
               <ngx-charts-bar-vertical [results]="monthlyRevenueData" [scheme]="chartColorScheme" [xAxis]="true" [yAxis]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" xAxisLabel="Thời gian" yAxisLabel="Doanh thu (VND)" [yAxisTickFormatting]="yAxisTickFormat">
               </ngx-charts-bar-vertical>
             </div>
-            <!-- [SỬA LỖI] Thêm ng-template noData vào trong nz-card -->
             <ng-template #noData>
               <div class="flex items-center justify-center h-full min-h-[200px] bg-gray-50 rounded-lg">
                 <p class="text-gray-500">Không có dữ liệu để hiển thị.</p>

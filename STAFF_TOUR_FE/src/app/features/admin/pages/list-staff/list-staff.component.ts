@@ -1,9 +1,5 @@
 /*
  * FILE: src/app/features/admin/list-staff/list-staff.component.ts
- * MÔ TẢ:
- * - Đã thêm các module NG-ZORRO cần thiết.
- * - Cập nhật logic tìm kiếm để sử dụng debounceTime.
- * - Thay thế confirm() và alert() bằng NzMessageService và NzModalService.
  */
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,7 +8,6 @@ import { RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-// --- [THAY ĐỔI] Import các module của NG-ZORRO ---
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -39,7 +34,6 @@ import { StatusVietnamesePipe } from '../../../../shared/pipes/status-vietnamese
     AvatarComponent,
     PaginationComponent,
     StatusVietnamesePipe,
-    // --- [THAY ĐỔI] Thêm các module NG-ZORRO vào imports ---
     NzTableModule,
     NzInputModule,
     NzButtonModule,

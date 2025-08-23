@@ -8,7 +8,7 @@ export interface LocationDTO {
   description: string;
   image: string;
   deleted: boolean;
-  createdAt: string; // Kiểu string vì JSON không có kiểu DateTime
+  createdAt: string;
 }
 
 /**
