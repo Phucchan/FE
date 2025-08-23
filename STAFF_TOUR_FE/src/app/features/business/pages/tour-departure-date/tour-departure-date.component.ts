@@ -29,6 +29,7 @@ import {
 
 // Shared Pipes
 import { CurrencyVndPipe } from '../../../../shared/pipes/currency-vnd.pipe';
+import { FormatDatePipe } from '../../../../shared/pipes/format-date.pipe';
 
 // NG-ZORRO Imports
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
@@ -53,6 +54,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     CommonModule,
     ReactiveFormsModule,
     CurrencyVndPipe,
+    FormatDatePipe,
     NzPageHeaderModule,
     NzButtonModule,
     NzTableModule,
