@@ -89,13 +89,14 @@
           <div nz-col nzXs="24" nzLg="8">
              <!-- ... Các trường form phụ ... -->
             <nz-card nzTitle="Thông tin bổ sung">
-              <!-- Mã Tour -->
-              <nz-form-item>
-                <nz-form-label>Mã Tour</nz-form-label>
-                <nz-form-control>
-                  <input nz-input formControlName="code" [placeholder]="!isEditMode ? 'Sẽ được tạo tự động' : ''" />
-                </nz-form-control>
-              </nz-form-item>
+            <!-- Mã Tour -->
+<nz-form-item>
+  <nz-form-label [nzFor]="'tourCode'">Mã Tour</nz-form-label>
+  <nz-form-control>
+    <!--Gán một placeholder cố định và đơn giản -->
+    <input id="tourCode" nz-input formControlName="code" placeholder="Mã sẽ được tạo tự động" />
+  </nz-form-control>
+</nz-form-item>
 
               <!-- Trạng thái -->
               <nz-form-item *ngIf="isEditMode">
