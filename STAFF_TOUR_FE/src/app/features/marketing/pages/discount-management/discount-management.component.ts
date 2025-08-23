@@ -1,7 +1,7 @@
 // src/app/features/marketing/pages/discount-management/discount-management.component.ts
 
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, PercentPipe, DatePipe } from '@angular/common';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -20,21 +20,19 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import {
-  Subject,
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  finalize,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+
+import { finalize } from 'rxjs';
 
 import { DiscountService } from '../../services/discount.service';
 import {
   TourDiscountRequest,
-  TourDiscountSummary,
-  TourScheduleSelectItem,
+  TourScheduleForDiscount,
+  TourForDiscount,
 } from '../../models/tour-discount.model';
 import { Paging } from '../../../../core/models/paging.model';
 import { ApiResponse } from '../../../../core/models/api-response.model';
@@ -46,6 +44,8 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    PercentPipe,
+    DatePipe,
     NzCardModule,
     NzTableModule,
     NzButtonModule,
@@ -56,6 +56,11 @@ import { ApiResponse } from '../../../../core/models/api-response.model';
     NzSelectModule,
     NzInputNumberModule,
     NzDatePickerModule,
+    NzPopconfirmModule,
+    NzDividerModule,
+    NzSpinModule,
+    NzTagModule,
+    NzToolTipModule,
   ],
   templateUrl: './discount-management.component.html',
 })
@@ -65,56 +70,97 @@ export class DiscountManagementComponent implements OnInit {
   private fb = inject(FormBuilder);
   private message = inject(NzMessageService);
 
-  // Component State
-  data: Paging<TourDiscountSummary> = {
+  // Tour List State
+  tourData: Paging<TourForDiscount> = {
     items: [],
     page: 0,
     size: 10,
     total: 0,
   };
-  isLoading = true;
+  isTourLoading = true;
   searchKeyword = '';
+  filterHasDiscount: boolean | null = null;
 
-  // Modal State
-  isModalVisible = false;
-  isModalLoading = false;
+  // Schedule Management Modal State
+  isScheduleModalVisible = false;
+  isScheduleLoading = false;
+  selectedTour: TourForDiscount | null = null;
+  schedules: TourScheduleForDiscount[] = [];
+
+  // Discount Form Modal State
+  isDiscountModalVisible = false;
+  isDiscountModalLoading = false;
+  isEditMode = false;
+  selectedSchedule: TourScheduleForDiscount | null = null;
   discountForm!: FormGroup;
 
-  // Tour Schedule Search State
-  isScheduleSearching = false;
-  tourSchedules: TourScheduleSelectItem[] = [];
-  private searchSchedule$ = new Subject<string>();
-
   ngOnInit(): void {
-    this.fetchData();
-    this.initForm();
-    this.initScheduleSearch();
+    this.fetchTours();
+    this.initDiscountForm();
   }
 
-  fetchData(page: number = 0, size: number = 10, keyword: string = ''): void {
-    this.isLoading = true;
+  // --- Tour Management ---
+  fetchTours(
+    page: number = 0,
+    size: number = 10,
+    keyword: string = '',
+    hasDiscount: boolean | null = null
+  ): void {
+    this.isTourLoading = true;
     this.discountService
-      .getDiscounts(keyword, page, size)
-      .pipe(finalize(() => (this.isLoading = false)))
-      .subscribe((res: ApiResponse<Paging<TourDiscountSummary>>) => {
-        if (res.status === 200) {
-          this.data = res.data;
-        }
+      .getToursForDiscount(keyword, page, size, hasDiscount)
+      .pipe(finalize(() => (this.isTourLoading = false)))
+      .subscribe((res: ApiResponse<Paging<TourForDiscount>>) => {
+        if (res.code === 200) this.tourData = res.data;
       });
   }
 
   onSearch(): void {
-    this.fetchData(0, this.data.size, this.searchKeyword);
+    this.fetchTours(
+      0,
+      this.tourData.size,
+      this.searchKeyword,
+      this.filterHasDiscount
+    );
   }
 
   onPageIndexChange(page: number): void {
-    // nz-table page index is 1-based, API is 0-based
-    this.fetchData(page - 1, this.data.size, this.searchKeyword);
+    this.fetchTours(
+      page - 1,
+      this.tourData.size,
+      this.searchKeyword,
+      this.filterHasDiscount
+    );
   }
 
-  private initForm(): void {
+  // --- Schedule Management ---
+  openScheduleModal(tour: TourForDiscount): void {
+    this.selectedTour = tour;
+    this.isScheduleModalVisible = true;
+    this.fetchSchedulesForSelectedTour();
+  }
+
+  fetchSchedulesForSelectedTour(): void {
+    if (!this.selectedTour) return;
+    this.isScheduleLoading = true;
+    this.discountService
+      .getSchedulesForSelect(this.selectedTour.id)
+      .pipe(finalize(() => (this.isScheduleLoading = false)))
+      .subscribe((res: ApiResponse<TourScheduleForDiscount[]>) => {
+        if (res.code === 200) this.schedules = res.data;
+      });
+  }
+
+  closeScheduleModal(): void {
+    this.isScheduleModalVisible = false;
+    this.selectedTour = null;
+    this.schedules = [];
+  }
+
+  // --- Discount Form Management ---
+  private initDiscountForm(): void {
     this.discountForm = this.fb.group({
-      scheduleId: [null, [Validators.required]],
+      id: [null],
       discountPercent: [
         null,
         [Validators.required, Validators.min(1), Validators.max(100)],
@@ -123,83 +169,117 @@ export class DiscountManagementComponent implements OnInit {
     });
   }
 
-  private initScheduleSearch(): void {
-    this.searchSchedule$
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        filter((term) => term.length >= 2),
-        tap(() => {
-          this.isScheduleSearching = true;
-          this.tourSchedules = [];
-        }),
-        switchMap((term) =>
-          this.discountService
-            .searchTourSchedules(term)
-            .pipe(finalize(() => (this.isScheduleSearching = false)))
-        )
-      )
-      .subscribe((res: ApiResponse<TourScheduleSelectItem[]>) => {
-        if (res.status === 200) {
-          this.tourSchedules = res.data;
-        }
-      });
-  }
-
-  onScheduleSearch(value: string): void {
-    if (value) {
-      this.searchSchedule$.next(value);
-    }
-  }
-
-  showCreateModal(): void {
+  openDiscountModal(schedule: TourScheduleForDiscount): void {
+    this.selectedSchedule = schedule;
+    this.isEditMode = !!schedule.discountId;
     this.discountForm.reset();
-    this.isModalVisible = true;
+
+    if (
+      this.isEditMode &&
+      schedule.discountStartDate &&
+      schedule.discountEndDate
+    ) {
+      this.discountForm.patchValue({
+        id: schedule.discountId,
+        discountPercent: schedule.discountPercent,
+        dateRange: [
+          new Date(schedule.discountStartDate),
+          new Date(schedule.discountEndDate),
+        ],
+      });
+    }
+    this.isDiscountModalVisible = true;
   }
 
-  handleOk(): void {
+  closeDiscountModal(): void {
+    this.isDiscountModalVisible = false;
+    this.selectedSchedule = null;
+  }
+
+  handleDiscountSubmit(): void {
     if (this.discountForm.invalid) {
       Object.values(this.discountForm.controls).forEach((control) => {
         control.markAsDirty();
-        control.updateValueAndValidity();
+        control.updateValueAndValidity({ onlySelf: true });
       });
       return;
     }
 
-    this.isModalLoading = true;
+    this.isDiscountModalLoading = true;
     const formValue = this.discountForm.value;
-
     const request: TourDiscountRequest = {
-      scheduleId: formValue.scheduleId,
+      scheduleId: this.selectedSchedule!.id,
       discountPercent: formValue.discountPercent,
       startDate: formValue.dateRange[0].toISOString(),
       endDate: formValue.dateRange[1].toISOString(),
     };
 
-    this.discountService
-      .createDiscount(request)
-      .pipe(finalize(() => (this.isModalLoading = false)))
+    const action$ = this.isEditMode
+      ? this.discountService.updateDiscount(formValue.id, request)
+      : this.discountService.createDiscount(request);
+
+    action$
+      .pipe(finalize(() => (this.isDiscountModalLoading = false)))
       .subscribe({
-        next: (res: ApiResponse<TourDiscountSummary>) => {
-          if (res.status === 200) {
-            this.message.success('Tạo khuyến mãi thành công!');
-            this.isModalVisible = false;
-            this.fetchData(); // Refresh data
+        next: (res) => {
+          if (res.code === 200) {
+            this.message.success(
+              this.isEditMode ? 'Cập nhật thành công!' : 'Tạo mới thành công!'
+            );
+            this.closeDiscountModal();
+            this.fetchSchedulesForSelectedTour(); // Refresh schedule list
+            this.fetchTours(
+              this.tourData.page,
+              this.tourData.size,
+              this.searchKeyword,
+              this.filterHasDiscount
+            ); // Refresh tour list
           } else {
             this.message.error(res.message || 'Đã có lỗi xảy ra.');
           }
         },
-        error: (err) =>
-          this.message.error('Đã có lỗi xảy ra. Vui lòng thử lại.'),
+        error: (err) => {
+          // Log detailed error from backend
+          const errorMessage =
+            err.error?.message || 'Đã có lỗi xảy ra. Vui lòng thử lại.';
+          this.message.error(errorMessage);
+          console.error('API Error:', err);
+        },
       });
   }
 
-  handleCancel(): void {
-    this.isModalVisible = false;
+  onDeleteDiscount(discountId: number): void {
+    this.discountService.deleteDiscount(discountId).subscribe({
+      next: (res) => {
+        if (res.code === 200) {
+          this.message.success('Xóa khuyến mãi thành công!');
+          this.fetchSchedulesForSelectedTour(); // Refresh schedule list
+          this.fetchTours(
+            this.tourData.page,
+            this.tourData.size,
+            this.searchKeyword,
+            this.filterHasDiscount
+          ); // Refresh tour list
+        } else {
+          this.message.error(res.message || 'Xóa thất bại.');
+        }
+      },
+      error: (err) => {
+        const errorMessage = err.error?.message || 'Đã có lỗi xảy ra.';
+        this.message.error(errorMessage);
+      },
+    });
   }
 
-  // Validator for date range picker to disable past dates
   disabledDate = (current: Date): boolean => {
-    return current && current.getTime() < Date.now() - 86400000; // a day tolerance
+    if (!this.selectedSchedule) {
+      return false;
+    }
+    const departureDate = new Date(this.selectedSchedule.departureDate);
+    // Disable dates before today (with a day tolerance) AND after the departure date
+    return (
+      (current && current.getTime() < Date.now() - 86400000) ||
+      current > departureDate
+    );
   };
 }

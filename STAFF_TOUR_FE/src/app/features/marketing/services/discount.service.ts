@@ -1,15 +1,16 @@
 // src/app/features/marketing/services/discount.service.ts
 
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ApiResponse } from '../../../core/models/api-response.model';
 import { Paging } from '../../../core/models/paging.model';
 import {
+  TourDiscountDTO,
   TourDiscountRequest,
-  TourDiscountSummary,
-  TourScheduleSelectItem,
+  TourForDiscount,
+  TourScheduleForDiscount,
 } from '../models/tour-discount.model';
 
 @Injectable({
@@ -18,62 +19,81 @@ import {
 export class DiscountService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/marketing/discounts`;
-  private scheduleApiUrl = `${environment.apiUrl}/business/schedules`;
 
-  /**
-   * Lấy danh sách khuyến mãi có phân trang và tìm kiếm.
-   * @param keyword Từ khóa tìm kiếm (tên tour)
-   * @param page Trang hiện tại
-   * @param size Số lượng mục trên mỗi trang
-   * @returns Danh sách khuyến mãi
-   */
-  getDiscounts(
+  //Create headers to prevent caching
+  private get noCacheHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Cache-Control':
+        'no-cache, no-store, must-revalidate, post-check=0, pre-check=0',
+      Pragma: 'no-cache',
+      Expires: '0',
+    });
+  }
+
+  // Lấy danh sách Tour để quản lý
+  getToursForDiscount(
     keyword: string,
     page: number,
-    size: number
-  ): Observable<ApiResponse<Paging<TourDiscountSummary>>> {
+    size: number,
+    hasDiscount: boolean | null
+  ): Observable<ApiResponse<Paging<TourForDiscount>>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
     if (keyword) {
       params = params.set('keyword', keyword);
     }
-    return this.http.get<ApiResponse<Paging<TourDiscountSummary>>>(
-      this.apiUrl,
-      { params }
+    if (hasDiscount !== null) {
+      params = params.set('hasDiscount', String(hasDiscount));
+    }
+    // Add no-cache headers to the request
+    return this.http.get<ApiResponse<Paging<TourForDiscount>>>(
+      `${this.apiUrl}/tours`,
+      {
+        params,
+        headers: this.noCacheHeaders,
+      }
     );
   }
 
-  /**
-   * Tạo một chương trình khuyến mãi mới.
-   * @param request Dữ liệu khuyến mãi mới
-   * @returns Khuyến mãi vừa được tạo
-   */
+  // Lấy chi tiết một khuyến mãi
+  getDiscountById(id: number): Observable<ApiResponse<TourDiscountDTO>> {
+    return this.http.get<ApiResponse<TourDiscountDTO>>(`${this.apiUrl}/${id}`, {
+      headers: this.noCacheHeaders,
+    });
+  }
+
+  // Tạo khuyến mãi mới (POST requests are not cached, no change needed)
   createDiscount(
     request: TourDiscountRequest
-  ): Observable<ApiResponse<TourDiscountSummary>> {
-    return this.http.post<ApiResponse<TourDiscountSummary>>(
-      this.apiUrl,
+  ): Observable<ApiResponse<TourDiscountDTO>> {
+    return this.http.post<ApiResponse<TourDiscountDTO>>(this.apiUrl, request);
+  }
+
+  // Cập nhật khuyến mãi (PUT requests are not cached, no change needed)
+  updateDiscount(
+    id: number,
+    request: TourDiscountRequest
+  ): Observable<ApiResponse<TourDiscountDTO>> {
+    return this.http.put<ApiResponse<TourDiscountDTO>>(
+      `${this.apiUrl}/${id}`,
       request
     );
   }
 
-  /**
-   * API giả định để tìm kiếm lịch trình tour cho ô select.
-   * Cần được triển khai ở backend.
-   * @param keyword Tên tour để tìm kiếm
-   * @returns Danh sách các lịch trình phù hợp
-   */
-  searchTourSchedules(
-    keyword: string
-  ): Observable<ApiResponse<TourScheduleSelectItem[]>> {
-    let params = new HttpParams();
-    if (keyword) {
-      params = params.set('keyword', keyword);
-    }
-    return this.http.get<ApiResponse<TourScheduleSelectItem[]>>(
-      `${this.scheduleApiUrl}/search`,
-      { params }
+  // Xóa khuyến mãi (DELETE requests are not cached, no change needed)
+  deleteDiscount(id: number): Observable<ApiResponse<void>> {
+    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${id}`);
+  }
+
+  // API để lấy lịch trình theo Tour ID
+  getSchedulesForSelect(
+    tourId: number
+  ): Observable<ApiResponse<TourScheduleForDiscount[]>> {
+    // Add no-cache headers to the request
+    return this.http.get<ApiResponse<TourScheduleForDiscount[]>>(
+      `${this.apiUrl}/tours/${tourId}/schedules`,
+      { headers: this.noCacheHeaders }
     );
   }
 }
