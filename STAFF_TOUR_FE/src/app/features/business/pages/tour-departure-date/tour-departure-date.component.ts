@@ -6,7 +6,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -79,6 +79,7 @@ export class TourDepartureDateComponent implements OnInit, OnDestroy {
   private tourDepartureService = inject(TourDepartureService);
   private modalService = inject(NzModalService);
   private message = inject(NzMessageService);
+  private router = inject(Router);
 
   // --- State ---
   tourId!: number;
@@ -265,5 +266,8 @@ export class TourDepartureDateComponent implements OnInit, OnDestroy {
   formatPaxOption(pax: TourPaxOption): string {
     if (!pax) return '';
     return `Gói ${pax.minQuantity} - ${pax.maxQuantity} khách`;
+  }
+  goBack(): void {
+    this.router.navigate(['/business/tours', this.tourId]);
   }
 }

@@ -3,6 +3,10 @@
   <nz-page-header [nzTitle]="pageTitle" (nzBack)="goBack()">
     <nz-page-header-extra>
     <nz-space>
+      <button nz-button (click)="goBack()">
+          <span nz-icon nzType="arrow-left"></span>
+          Quay về
+        </button>
         <!--Các nút điều hướng chỉ hiển thị ở chế độ edit và tour đã published -->
          <ng-container *ngIf="isEditMode">
           <!-- Các nút này luôn hiển thị ở chế độ chỉnh sửa -->
