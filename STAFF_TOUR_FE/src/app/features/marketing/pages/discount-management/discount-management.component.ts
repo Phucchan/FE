@@ -26,7 +26,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
-import { finalize } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 
 import { DiscountService } from '../../services/discount.service';
 import {
@@ -145,16 +145,25 @@ export class DiscountManagementComponent implements OnInit {
     this.isScheduleLoading = true;
     this.discountService
       .getSchedulesForSelect(this.selectedTour.id)
-      .pipe(finalize(() => (this.isScheduleLoading = false)))
-      .subscribe((res: ApiResponse<TourScheduleForDiscount[]>) => {
-        if (res.code === 200) this.schedules = res.data;
-      });
+      .pipe(
+        finalize(() => (this.isScheduleLoading = false)),
+        tap((res: ApiResponse<TourScheduleForDiscount[]>) => {
+          if (res.code === 200) {
+            this.schedules = res.data;
+            // Cập nhật trạng thái của tour cha sau khi có dữ liệu lịch trình mới nhất
+            this.updateTourStatusInList(res.data);
+          }
+        })
+      )
+      .subscribe(); // subscribe() trống vì logic đã được xử lý trong tap()
   }
 
   closeScheduleModal(): void {
     this.isScheduleModalVisible = false;
     this.selectedTour = null;
     this.schedules = [];
+    // Optional: Tải lại danh sách tour khi đóng modal để đảm bảo dữ liệu luôn mới nhất
+    this.onSearch();
   }
 
   // --- Discount Form Management ---
@@ -227,19 +236,12 @@ export class DiscountManagementComponent implements OnInit {
               this.isEditMode ? 'Cập nhật thành công!' : 'Tạo mới thành công!'
             );
             this.closeDiscountModal();
-            this.fetchSchedulesForSelectedTour(); // Refresh schedule list
-            this.fetchTours(
-              this.tourData.page,
-              this.tourData.size,
-              this.searchKeyword,
-              this.filterHasDiscount
-            ); // Refresh tour list
+            this.fetchSchedulesForSelectedTour(); // Làm mới danh sách lịch trình (sẽ tự động cập nhật tour cha)
           } else {
             this.message.error(res.message || 'Đã có lỗi xảy ra.');
           }
         },
         error: (err) => {
-          // Log detailed error from backend
           const errorMessage =
             err.error?.message || 'Đã có lỗi xảy ra. Vui lòng thử lại.';
           this.message.error(errorMessage);
@@ -253,13 +255,7 @@ export class DiscountManagementComponent implements OnInit {
       next: (res) => {
         if (res.code === 200) {
           this.message.success('Xóa khuyến mãi thành công!');
-          this.fetchSchedulesForSelectedTour(); // Refresh schedule list
-          this.fetchTours(
-            this.tourData.page,
-            this.tourData.size,
-            this.searchKeyword,
-            this.filterHasDiscount
-          ); // Refresh tour list
+          this.fetchSchedulesForSelectedTour(); // Làm mới danh sách lịch trình (sẽ tự động cập nhật tour cha)
         } else {
           this.message.error(res.message || 'Xóa thất bại.');
         }
@@ -269,6 +265,25 @@ export class DiscountManagementComponent implements OnInit {
         this.message.error(errorMessage);
       },
     });
+  }
+
+  /**
+   * Cập nhật trạng thái 'hasDiscount' của tour trong danh sách chính
+   * dựa trên danh sách các lịch trình của nó.
+   */
+  private updateTourStatusInList(schedules: TourScheduleForDiscount[]): void {
+    if (!this.selectedTour) return;
+
+    // Kiểm tra xem có bất kỳ lịch trình nào có discountId không
+    const hasDiscount = schedules.some((s) => s.discountId !== null);
+
+    // Tìm tour tương ứng trong danh sách tourData và cập nhật nó
+    const tourInList = this.tourData.items.find(
+      (t) => t.id === this.selectedTour!.id
+    );
+    if (tourInList && tourInList.hasDiscount !== hasDiscount) {
+      tourInList.hasDiscount = hasDiscount;
+    }
   }
 
   disabledDate = (current: Date): boolean => {
